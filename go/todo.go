@@ -10,11 +10,11 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"os"
 )
 
 const (
 	databaseUser = "postgres"
-	databaseHost = "db"
 	databaseName = "postgres"
 )
 
@@ -182,6 +182,7 @@ func (db *Database) taskHandler(w http.ResponseWriter, r *http.Request) {
 // it returns a database handle.
 func ConnectDb() *sql.DB {
 	// TODO: Refactor the database config
+	databaseHost := os.Getenv("DB_PORT_5432_TCP_ADDR")
 	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s@%s/%s?sslmode=disable", databaseUser, databaseHost, databaseName))
 	if err != nil {
 		log.Fatal(err)
